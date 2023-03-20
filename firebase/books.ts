@@ -4,8 +4,8 @@ import {db} from './firebase' // Initialize FirebaseApp
 export type Book = {
     id: string
     title: string
-    author: string
-    price: number
+    description: string
+    imageUrl: string
 }
 
 export async function getBooks(): Promise<Book[]> {

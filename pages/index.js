@@ -5,6 +5,7 @@ import styles from '@/styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 import { useBooks } from '../hooks/useBooks'
+import CardView from "@/pages/CardView";
 
 
 
@@ -20,13 +21,19 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ul>
-        {books.map((book) => (
-            <li key={book.id}>
-              {book.title} / {book.author} / {book.price}
-            </li>
-        ))}
-      </ul>
+      <main className={styles.main}>
+          <ul>
+              {books.map((item) => (
+                  <CardView
+                      key={item.id}
+                      title={item.title}
+                      description={item.description}
+                      imageUrl={item.imageUrl}
+                  />
+              ))}
+          </ul>
+      </main>
+
     </>
   )
 }
