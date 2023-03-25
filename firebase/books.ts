@@ -1,5 +1,7 @@
 import { collection, getDocs, getFirestore } from 'firebase/firestore'
 import {db} from './firebase' // Initialize FirebaseApp
+import { doc, getDoc } from 'firebase/firestore';
+
 
 export type Book = {
     id: string
@@ -18,4 +20,18 @@ export async function getBooks(): Promise<Book[]> {
     })
 
     return books
+}
+
+
+
+export async function getBook(id: string): Promise<Book | null> {
+    const bookRef = doc(db, '/books', id);
+    const bookDoc = await getDoc(bookRef);
+
+    if (bookDoc.exists()) {
+        const book = bookDoc.data() as Book;
+        return { ...book, id: bookDoc.id };
+    } else {
+        return null;
+    }
 }

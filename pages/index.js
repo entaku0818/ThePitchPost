@@ -1,18 +1,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import styles from '../styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 import { useBooks } from '../hooks/useBooks'
-import CardView from "@/pages/CardView";
-
-
+import CardView from "./CardView";
 
 
 export default function Home() {
   const { isLoading, books } = useBooks()
-
   return (
     <>
       <Head>
@@ -26,6 +23,7 @@ export default function Home() {
               {books.map((item) => (
                   <CardView
                       key={item.id}
+                      id={item.id}
                       title={item.title}
                       description={item.description}
                       imageUrl={item.imageUrl}

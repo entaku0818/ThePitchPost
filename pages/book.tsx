@@ -1,18 +1,27 @@
+import React from 'react';
+import {useBook} from "../hooks/useBooks";
+import {FaHeart} from "react-icons/fa";
 import styled from 'styled-components';
-import { FaHeart } from 'react-icons/fa';
+import {useRouter} from "next/router";
 
-const CardView = ({ title, description, imageUrl }) => {
+
+const Book = () => {
+    const router =  useRouter();
+    const { id } = router.query;
+    const { isLoading, book } = useBook(id)
+
     return (
         <Card>
-            <Image src={imageUrl} alt={title} />
+            <Image src={book?.imageUrl} alt={book?.id} />
             <Content>
-                <Title>{title}</Title>
-                <Description>{description}</Description>
+                <Title>{book?.title}</Title>
+                <Description>{book?.description}</Description>
                 <Icon><FaHeart /></Icon>
             </Content>
         </Card>
     );
 };
+
 
 const Card = styled.div`
   border: 1px solid #ccc;
@@ -48,4 +57,5 @@ const Icon = styled.div`
   color: red;
 `;
 
-export default CardView;
+
+export default Book;
