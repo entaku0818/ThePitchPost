@@ -25,7 +25,8 @@ export async function getBooks(): Promise<Book[]> {
 
 
 export async function getBook(id: string): Promise<Book | null> {
-    const bookRef = doc(db, '/books', id);
+    console.log(id)
+    const bookRef = doc(db, 'books', id);
     const bookDoc = await getDoc(bookRef);
 
     if (bookDoc.exists()) {
