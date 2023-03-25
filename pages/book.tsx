@@ -5,11 +5,10 @@ import styled from 'styled-components';
 import {useRouter} from "next/router";
 import {addComment, Comment, getComments} from "../firebase/comments";
 
-
 const Book = () => {
-    const router =  useRouter();
+    const router = useRouter();
     const { id } = router.query;
-    const { isLoading, book } = useBook("0ZwKGexFWsliPxOiYNm5")
+    const { isLoading, book } = useBook(id)
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -22,11 +21,12 @@ const Book = () => {
     return (
 
         <Card>
-            <Image src={book?.imageUrl} alt={book?.id} />
+            <Image src={book?.imageUrl ?? "https://ichef.bbci.co.uk/onesport/cps/976/cpsprodpb/1571B/production/_125753878_football.jpg"} alt={book?.id} />
             <Content>
                 <Title>{book?.title}</Title>
                 <Description>{book?.description}</Description>
                 <Icon><FaHeart /></Icon>
+                <Button href={book?.url}>Visit Website</Button>
             </Content>
             <div>
                 <CommentList bookId={book?.id} />
@@ -53,21 +53,22 @@ function CommentList({ bookId }: CommentListProps) {
     }, [bookId]);
 
     return (
-        <div>
+        <div className="comment-section">
             <h2>Comments</h2>
             {comments.map((comment) => (
                 <div key={comment.id} className="comment">
                     <div className="comment-header">
-                        <div className="comment-author">
-                            <img
-                                src={`https://api.adorable.io/avatars/48/${comment.userId}.png`}
-                                alt="avatar"
-                                className="comment-avatar"
-                            />
+                        <img
+                            src={`https://api.adorable.io/avatars/48/${comment.userId}.png`}
+                            alt="avatar"
+                            className="comment-avatar"
+                        />
+                        <div className="comment-header-right">
                             <span className="comment-author-name">{comment.userId}</span>
+                            {/*<small className="comment-date">{comment.createdAt.toDateString()}</small>*/}
                         </div>
                     </div>
-                    <p>{comment.comment}</p>
+                    <p className="comment-text">{comment.comment}</p>
                 </div>
             ))}
         </div>
@@ -108,6 +109,7 @@ function CommentForm({ bookId }: CommentFormProps) {
 }
 
 
+
 const Card = styled.div`
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -142,5 +144,16 @@ const Icon = styled.div`
   color: red;
 `;
 
+const Button = styled.a`
+  background-color: #009900;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  text-decoration: none;
+`;
 
 export default Book;

@@ -8,6 +8,7 @@ export type Book = {
     title: string
     description: string
     imageUrl: string
+    url: string
 }
 
 export async function getBooks(): Promise<Book[]> {
