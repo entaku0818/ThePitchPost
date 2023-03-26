@@ -7,9 +7,12 @@ import {addComment, Comment, getComments} from "../firebase/comments";
 
 const Book = () => {
     const router = useRouter();
+    if (!router.query.id) {
+        return <div>Loading...</div>;
+    }
+
     const { id } = router.query;
     const { isLoading, book } = useBook(id)
-
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -19,7 +22,6 @@ const Book = () => {
     }
 
     return (
-
         <Card>
             <Image src={book?.imageUrl ?? "https://ichef.bbci.co.uk/onesport/cps/976/cpsprodpb/1571B/production/_125753878_football.jpg"} alt={book?.id} />
             <Content>
