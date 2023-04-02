@@ -31,9 +31,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   @media (max-width: 767px) {
-    .container {
-      max-width: 320px;
-    }
+    max-width: 320px;
   }
 `;
 
