@@ -1,5 +1,5 @@
 import {addDoc, collection, getDoc, serverTimestamp} from 'firebase/firestore';
-import {db} from './firebase' // Initialize FirebaseApp
+import {db} from '../firebase/firebase' // Initialize FirebaseApp
 import { getDocs, query, where } from 'firebase/firestore';
 
 export type Comment = {
