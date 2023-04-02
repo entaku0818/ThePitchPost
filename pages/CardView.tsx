@@ -30,7 +30,11 @@ const Card = styled.div`
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  width: 100%;
+  @media (max-width: 767px) {
+    .container {
+      max-width: 320px;
+    }
+  }
 `;
 
 const Image = styled.img`
