@@ -6,7 +6,7 @@ import {useRouter} from "next/router";
 import {addComment, Comment, getComments} from "../firebase/comments";
 import {checkLogin} from "../firebase/auth";
 import {LoginModal} from "../components/LoginModal";
-
+import { useAuth } from '../hooks/useAuth';
 
 const Book = () => {
 
@@ -84,7 +84,7 @@ function CommentList({ bookId }: CommentListProps) {
                             className="comment-avatar"
                         />
                         <div className="comment-header-right">
-                            <span className="comment-author-name">{comment.userId}</span>
+                            <span className="comment-author-name">{comment.displayName}</span>
                             {/*<small className="comment-date">{comment.createdAt.toDateString()}</small>*/}
                         </div>
                     </div>
@@ -103,6 +103,7 @@ interface CommentFormProps {
 function CommentForm({ bookId, noLogin }: CommentFormProps) {
     const [comment, setComment] = useState('');
 
+    const { getCurrentUser } = useAuth();
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -112,8 +113,9 @@ function CommentForm({ bookId, noLogin }: CommentFormProps) {
         checkLogin()
             .then(async () => {
                 // ログインしている場合の処理
-                await addComment(bookId, 'userId', comment);
-                setComment('');
+                const currentUser = await getCurrentUser();
+                await addComment(bookId, currentUser.uid, currentUser.displayName || "", comment);
+                setComment("");
             })
             .catch(() => {
                 // ログインしていない場合の処理
