@@ -4,21 +4,36 @@ import {FaHeart} from "react-icons/fa";
 import styled from 'styled-components';
 import {useRouter} from "next/router";
 import {addComment, Comment, getComments} from "../firebase/comments";
+import {checkLogin} from "../firebase/auth";
+import {LoginModal} from "../components/LoginModal";
+
 
 const Book = () => {
+
     const router = useRouter();
     if (!router.query.id) {
         return <div>Loading...</div>;
     }
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { id } = router.query;
+
     const { isLoading, book } = useBook(id)
     if (isLoading) {
         return <div>Loading...</div>;
     }
 
+
     if (!book) {
         return <div>Book not found</div>;
+    }
+
+    function noLogin() {
+        setIsModalOpen(true);
+    }
+    function handleModalClose() {
+        setIsModalOpen(false);
+        console.log(isModalOpen)
     }
 
     return (
@@ -32,9 +47,12 @@ const Book = () => {
             </Content>
             <div>
                 <CommentList bookId={book?.id} />
-                <CommentForm bookId={book?.id} />
+                <CommentForm bookId={book?.id} noLogin={noLogin} />
             </div>
+            <LoginModal isOpen={isModalOpen} onClose={handleModalClose} />
+
         </Card>
+
     );
 };
 
@@ -79,17 +97,29 @@ function CommentList({ bookId }: CommentListProps) {
 
 interface CommentFormProps {
     bookId: string;
+    noLogin: () => void;
 }
 
-function CommentForm({ bookId }: CommentFormProps) {
+function CommentForm({ bookId, noLogin }: CommentFormProps) {
     const [comment, setComment] = useState('');
 
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         console.log(bookId);
-        await addComment(bookId, 'userId', comment);
-        setComment('');
+
+
+        checkLogin()
+            .then(async () => {
+                // ログインしている場合の処理
+                await addComment(bookId, 'userId', comment);
+                setComment('');
+            })
+            .catch(() => {
+                // ログインしていない場合の処理
+                noLogin();
+            });
+
     }
 
     return (
@@ -109,6 +139,7 @@ function CommentForm({ bookId }: CommentFormProps) {
         </form>
     );
 }
+
 
 
 
