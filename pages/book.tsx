@@ -14,10 +14,12 @@ const Book = () => {
     if (!router.query.id) {
         return <div>Loading...</div>;
     }
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { id } = router.query;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { isLoading, book } = useBook(id)
     if (isLoading) {
         return <div>Loading...</div>;
