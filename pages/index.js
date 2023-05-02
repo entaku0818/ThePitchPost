@@ -5,11 +5,14 @@ import styles from '../styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 import { useBooks } from '../hooks/useBooks'
+import { useTopRank } from '../hooks/useRanking'
 import CardView from "./CardView";
 import Header from "../components/header";
+import RankCardView from "./RankCardView";
 
 export default function Home() {
     const { isLoading, books } = useBooks();
+    const { isLoadingRank, topRank } = useTopRank();
     return (
         <>
             <Head>
@@ -21,6 +24,18 @@ export default function Home() {
             <Header />
             <div className="main-image"></div>
             <main className={styles.main}>
+                <div className="pickup">
+                    <div className="pickup-title">PICK UP</div>
+                    {topRank && (
+                        <RankCardView
+                            key={topRank.id}
+                            id={topRank.id}
+                            title={topRank.title}
+                            description={topRank.description}
+                            imageUrl={topRank.imageUrl}
+                        />
+                    )}
+                </div>
                 <ul className={styles.cardList}>
                     {books.map((item) => (
                         <CardView
@@ -36,14 +51,10 @@ export default function Home() {
 
             <style jsx>{`
         .main-image {
-        width: 1440px;
-        height: 600px;
+          width: 100%;
+          height: 50em;
           position: relative; /* 相対位置指定を有効にする */
-
-
-        
           background-image: url('/main-image.png');
-          /* Add other background properties and styles */
         }
 
         .main-image img {
@@ -52,7 +63,27 @@ export default function Home() {
           object-fit: contain; /* 画像を親要素にフィットさせる */
           object-position: center center; /* 画像を中央に表示する */
         }
+        
+        
+        .pickup{
+          margin-top: 4em;
+          margin-bottom: 8em;
+        }
+        .pickup-title{
+            font-family: 'Futura';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 64px;
+            line-height: 85px;
+            text-align: center;
+        }
 
+        .main-image {
+          width: 100%;
+          height: 50em;
+          position: relative; /* 相対位置指定を有効にする */
+          background-image: url('/main-image.png');
+        }
         /* Add more custom styles as needed */
         .cardList {
           list-style: none;
