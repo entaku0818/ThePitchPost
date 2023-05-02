@@ -14,11 +14,16 @@ const CardView = ({ id, title, description, imageUrl }:Book) => {
     };
     return (
         <Card onClick={handleClick}>
-            <Image src={imageUrl} alt={title} />
+            {imageUrl ? (
+                <Image src={imageUrl} alt={title} />
+            ) : (
+                <Image src="no-image.png" alt="" />
+            )}
             <Content>
                 <Title>{title}</Title>
                 <Description>{description}</Description>
-                <Icon><FaHeart /></Icon>
+                <Description>www.bbc.com</Description>
+                {/*<Icon><FaHeart /></Icon>*/}
             </Content>
         </Card>
     );
@@ -37,7 +42,7 @@ const Card = styled.div`
 
 const Image = styled.img`
   border-radius: 5px 5px 0 0;
-  object-fit: contain;
+  object-fit: cover;
   height: 200px;
 `;
 

@@ -36,17 +36,20 @@ export default function Home() {
                         />
                     )}
                 </div>
-                <ul className={styles.cardList}>
-                    {books.map((item) => (
-                        <CardView
-                            key={item.id}
-                            id={item.id}
-                            title={item.title}
-                            description={item.description}
-                            imageUrl={item.imageUrl}
-                        />
-                    ))}
-                </ul>
+                <div className="topics">
+                    <div className="topics-title">TOPICS ALL</div>
+                    <ul className="cardList">
+                        {books.map((item) => (
+                            <CardView
+                                key={item.id}
+                                id={item.id}
+                                title={item.title}
+                                description={item.description}
+                                imageUrl={item.imageUrl}
+                            />
+                        ))}
+                    </ul>
+                </div>
             </main>
 
             <style jsx>{`
@@ -69,13 +72,22 @@ export default function Home() {
           margin-top: 4em;
           margin-bottom: 8em;
         }
-        .pickup-title{
+        
+        .topics{
+          padding-top: 4em;
+          padding-left: 2em;
+          padding-right: 2em;
+          margin-bottom: 8em;
+          background: linear-gradient(180deg, rgba(9, 180, 164, 0.29) 0%, #09B4A4 99.48%);
+        }
+        .pickup-title, .topics-title{
             font-family: 'Futura';
             font-style: normal;
             font-weight: 700;
             font-size: 64px;
             line-height: 85px;
             text-align: center;
+            margin-bottom: 1em;
         }
 
         .main-image {
@@ -86,12 +98,12 @@ export default function Home() {
         }
         /* Add more custom styles as needed */
         .cardList {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 20px;
+              list-style: none;
+              padding: 0;
+              margin: 0;
+              display: grid;
+              grid-template-columns: repeat(3, 1fr); /* 3列に設定 */
+              gap: 20px;
         }
       `}</style>
         </>
