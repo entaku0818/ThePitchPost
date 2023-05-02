@@ -3,13 +3,13 @@ import { FaHeart } from 'react-icons/fa';
 import Router from 'next/router';
 import {Ranking} from '../firebase/ranking'
 
-const RankCardView = ({ id, title, description, imageUrl }:Ranking) => {
+const RankCardView = ({ bookId, title, description, imageUrl }:Ranking) => {
 
     const handleClick = () => {
 
         Router.push({
             pathname: '/book',
-            query: { id: id }
+            query: { id: bookId }
         });
     };
     return (

@@ -5,6 +5,7 @@ import { doc, getDoc } from 'firebase/firestore';
 
 export type Ranking = {
     id: string
+    bookId: string
     title: string
     description: string
     imageUrl: string
@@ -33,7 +34,6 @@ export async function getTopRank(): Promise<Ranking | null> {
         const book = doc.data() as Ranking
         rankings.push({ ...book, id: doc.id })
     })
-    console.log(rankings[0]);
     return rankings[0];
 }
 

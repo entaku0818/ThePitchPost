@@ -29,7 +29,7 @@ export default function Home() {
                     {topRank && (
                         <RankCardView
                             key={topRank.id}
-                            id={topRank.id}
+                            bookId={topRank.bookId}
                             title={topRank.title}
                             description={topRank.description}
                             imageUrl={topRank.imageUrl}
