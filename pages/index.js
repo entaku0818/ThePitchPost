@@ -20,8 +20,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
 
       </Head>
-        {/*<Header/>*/}
+        <Header/>
       <main className={styles.main}>
+
           <ul>
               {books.map((item) => (
                   <CardView
