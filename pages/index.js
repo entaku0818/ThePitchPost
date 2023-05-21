@@ -45,6 +45,7 @@ export default function Home() {
                                 id={item.id}
                                 title={item.title}
                                 description={item.description}
+                                description={item.description}
                                 imageUrl={item.imageUrl}
                             />
                         ))}
@@ -53,58 +54,80 @@ export default function Home() {
             </main>
 
             <style jsx>{`
-        .main-image {
-          width: 100%;
-          height: 50em;
-          position: relative; /* 相対位置指定を有効にする */
-          background-image: url('/main-image.png');
-        }
+.main-image {
+  width: 100%;
+  height: 25em;
+  position: relative;
+  background-image: url('/main-image.png');
+  background-color: white;
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-position: center top; 
+}
 
-        .main-image img {
-          width: 100%; /* 画像の幅を親要素に合わせて100%に設定 */
-          height: 100%; /* 画像の高さを親要素に合わせて100%に設定 */
-          object-fit: contain; /* 画像を親要素にフィットさせる */
-          object-position: center center; /* 画像を中央に表示する */
-        }
-        
-        
-        .pickup{
-          margin-top: 4em;
-          margin-bottom: 8em;
-        }
-        
-        .topics{
-          padding-top: 4em;
-          padding-left: 2em;
-          padding-right: 2em;
-          margin-bottom: 8em;
-          background: linear-gradient(180deg, rgba(9, 180, 164, 0.29) 0%, #09B4A4 99.48%);
-        }
-        .pickup-title, .topics-title{
-            font-family: 'Futura';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 64px;
-            line-height: 85px;
-            text-align: center;
-            margin-bottom: 1em;
-        }
+.main-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
 
-        .main-image {
-          width: 100%;
-          height: 50em;
-          position: relative; /* 相対位置指定を有効にする */
-          background-image: url('/main-image.png');
-        }
-        /* Add more custom styles as needed */
+.pickup {
+  margin-top: 4em;
+  margin-bottom: 8em;
+}
+
+.topics {
+  padding-top: 4em;
+  padding-left: 2em;
+  padding-right: 2em;
+  margin-bottom: 8em;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(9, 180, 164, 0.29) 0%, #09B4A4 99.48%);
+}
+
+.pickup-title, .topics-title {
+  font-family: 'Futura';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 85px;
+  text-align: center;
+  margin-bottom: 1em;
+}
         .cardList {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr); /* PCの場合は3列にする */
+          gap: 2em; /* カード間の間隔を設定 */
+          grid-template-columns: repeat(3, 1fr);
+          justify-items: initial;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 767px) {
+          .main-image {
+            height: 30em;
+          }
+        
+          .pickup-title, .topics-title {
+            font-size: 40px;
+            line-height: 55px;
+          }
+          
+          
+          .cardList {
               list-style: none;
               padding: 0;
               margin: 0;
               display: grid;
-              grid-template-columns: repeat(3, 1fr); /* 3列に設定 */
+              grid-template-columns: 1fr;
               gap: 20px;
+              justify-items: center;
+            grid-template-columns: 1fr; /* モバイルの場合は1列にする */
+          }
         }
+
       `}</style>
         </>
     );

@@ -35,6 +35,7 @@ const Card = styled.div`
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  background-color: white; /* Add this line to set the background color */
   @media (max-width: 767px) {
     max-width: 320px;
   }
