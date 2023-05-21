@@ -40,7 +40,14 @@ export default function Home() {
                     <div className="topics-title">TOPICS ALL</div>
                     <ul className="cardList">
                         {books.map((item) => (
-                            <CardView key={item.id} book={item} />
+                            <CardView
+                                      key={item.id}
+                                      id={item.id}
+                                      title={item.title}
+                                      description={item.description}
+                                      sourceSite={item.sourceSite}
+                                      imageUrl={item.imageUrl}
+                                      book={item} />
                         ))}
                     </ul>
                 </div>

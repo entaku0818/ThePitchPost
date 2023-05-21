@@ -3,26 +3,27 @@ import { FaHeart } from 'react-icons/fa';
 import Router from 'next/router';
 import {Book} from '../firebase/books'
 
-const CardView = ({ book }: { book: Book }) => {
+const CardView = ({ id, title, description, imageUrl, sourceSite }:Book) => {
 
     const handleClick = () => {
 
         Router.push({
             pathname: '/book',
-            query: { id: book.id }
+            query: { id: id }
         });
     };
     return (
         <Card onClick={handleClick}>
-            {book.imageUrl ? (
-                <Image src={book.imageUrl} alt={book.title} />
-            ) : (
+            {imageUrl === undefined ? (
                 <Image src="no-image.png" alt="" />
+            ) : (
+
+                <Image src={imageUrl} alt={title} />
             )}
             <Content>
-                <Title>{book.title}</Title>
-                <Description>{book.description}</Description>
-                <Source>{book.sourceSite}</Source>
+                <Title>{title}</Title>
+                <Description>{description}</Description>
+                <Source>{sourceSite}</Source>
                 {/*<CreatedAt>{book.createdAt}</CreatedAt>*/}
                 {/*<Icon><FaHeart /></Icon>*/}
             </Content>
