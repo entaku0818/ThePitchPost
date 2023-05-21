@@ -24,30 +24,23 @@ export default function Home() {
             <Header />
             <div className="main-image"></div>
             <main className={styles.main}>
-                <div className="pickup">
-                    <div className="pickup-title">PICK UP</div>
-                    {topRank && (
-                        <RankCardView
-                            key={topRank.id}
-                            bookId={topRank.bookId}
-                            title={topRank.title}
-                            description={topRank.description}
-                            imageUrl={topRank.imageUrl}
-                        />
-                    )}
-                </div>
+                {/*<div className="pickup">*/}
+                {/*    <div className="pickup-title">PICK UP</div>*/}
+                {/*    {topRank && (*/}
+                {/*        <RankCardView*/}
+                {/*            key={topRank.id}*/}
+                {/*            bookId={topRank.bookId}*/}
+                {/*            title={topRank.title}*/}
+                {/*            description={topRank.description}*/}
+                {/*            imageUrl={topRank.imageUrl}*/}
+                {/*        />*/}
+                {/*    )}*/}
+                {/*</div>*/}
                 <div className="topics">
                     <div className="topics-title">TOPICS ALL</div>
                     <ul className="cardList">
                         {books.map((item) => (
-                            <CardView
-                                key={item.id}
-                                id={item.id}
-                                title={item.title}
-                                description={item.description}
-                                description={item.description}
-                                imageUrl={item.imageUrl}
-                            />
+                            <CardView key={item.id} book={item} />
                         ))}
                     </ul>
                 </div>

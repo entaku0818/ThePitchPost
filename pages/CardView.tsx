@@ -3,26 +3,27 @@ import { FaHeart } from 'react-icons/fa';
 import Router from 'next/router';
 import {Book} from '../firebase/books'
 
-const CardView = ({ id, title, description, imageUrl }:Book) => {
+const CardView = ({ book }: { book: Book }) => {
 
     const handleClick = () => {
 
         Router.push({
             pathname: '/book',
-            query: { id: id }
+            query: { id: book.id }
         });
     };
     return (
         <Card onClick={handleClick}>
-            {imageUrl ? (
-                <Image src={imageUrl} alt={title} />
+            {book.imageUrl ? (
+                <Image src={book.imageUrl} alt={book.title} />
             ) : (
                 <Image src="no-image.png" alt="" />
             )}
             <Content>
-                <Title>{title}</Title>
-                <Description>{description}</Description>
-                <Description>www.bbc.com</Description>
+                <Title>{book.title}</Title>
+                <Description>{book.description}</Description>
+                <Source>{book.sourceSite}</Source>
+                {/*<CreatedAt>{book.createdAt}</CreatedAt>*/}
                 {/*<Icon><FaHeart /></Icon>*/}
             </Content>
         </Card>
@@ -53,13 +54,20 @@ const Content = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1rem;
   margin: 0;
 `;
 
 const Description = styled.p`
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin: 10px 0;
+`;
+
+const Source = styled.p`
+  font-size: 0.5rem;
+  margin: 10px 0;
+  color: #7c7c7c;
+  
 `;
 
 const Icon = styled.div`
