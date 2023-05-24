@@ -7,6 +7,8 @@ import {addComment, Comment, getComments} from "../firebase/comments";
 import {checkLogin} from "../firebase/auth";
 import {LoginModal} from "../components/LoginModal";
 import { useAuth } from '../hooks/useAuth';
+import Head from "next/head";
+import Header from "../components/header";
 
 const Book = () => {
 
@@ -39,13 +41,19 @@ const Book = () => {
     }
 
     return (
+        <>
+            <Head>
+                <title>the-pitch-post</title>
+                <meta name="description" content="the-pitch-post" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <Header />
         <Card>
             <Image src={book?.imageUrl ?? "https://ichef.bbci.co.uk/onesport/cps/976/cpsprodpb/1571B/production/_125753878_football.jpg"} alt={book?.id} />
             <Content>
                 <Title>{book?.title}</Title>
-                <Description>{book?.description}</Description>
-                <Icon><FaHeart /></Icon>
-                <Button href={book?.url}>Visit Website</Button>
+                <Button href={book?.url}>続きを読む</Button>
             </Content>
             <div>
                 <CommentList bookId={book?.id} />
@@ -54,6 +62,7 @@ const Book = () => {
             <LoginModal isOpen={isModalOpen} onClose={handleModalClose} />
 
         </Card>
+        </>
 
     );
 };
@@ -62,6 +71,9 @@ const Book = () => {
 interface CommentListProps {
     bookId: string;
 }
+const CommentSectionContainer = styled.div`
+  width: 50em;
+`;
 
 function CommentList({ bookId }: CommentListProps) {
     const [comments, setComments] = useState<Comment[]>([]);
@@ -75,7 +87,7 @@ function CommentList({ bookId }: CommentListProps) {
     }, [bookId]);
 
     return (
-        <div className="comment-section">
+        <CommentSectionContainer className="comment-section">
             <h2>Comments</h2>
             {comments.map((comment) => (
                 <div key={comment.id} className="comment">
@@ -93,7 +105,7 @@ function CommentList({ bookId }: CommentListProps) {
                     <p className="comment-text">{comment.comment}</p>
                 </div>
             ))}
-        </div>
+        </CommentSectionContainer>
     );
 }
 
@@ -127,23 +139,52 @@ function CommentForm({ bookId, noLogin }: CommentFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="comment-form">
-            <h3>Add a comment</h3>
-            <textarea
+        <CommentFormContainer className="comment-form" onSubmit={handleSubmit}>
+            <h3>Pitch Posts</h3>
+            <CommentTextarea
                 id="comment"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 required
                 placeholder="Type your comment here"
                 className="comment-input"
-            ></textarea>
-            <button type="submit" className="comment-btn">
-                Post Comment
-            </button>
-        </form>
+            ></CommentTextarea>
+            <CommentButtonContainer>
+                <CommentButton type="submit" className="comment-btn">
+                    Pitch Post
+                </CommentButton>
+            </CommentButtonContainer>
+        </CommentFormContainer>
     );
 }
 
+
+const CommentTextarea = styled.textarea`
+  /* CSSスタイルを記述 */
+`;
+
+const CommentButtonContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  /* その他のスタイル */
+`;
+
+const CommentFormContainer = styled.form`
+  margin-top: 20px;
+  /* その他のスタイル */
+`;
+
+const CommentButton = styled.button`
+  background-color: #009900;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  /* その他のスタイル */
+`;
 
 
 
@@ -153,17 +194,18 @@ const Card = styled.div`
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  align-items: center; /* 追加: 画像を縦方向に中央に寄せる */
 `;
 
 const Image = styled.img`
-  border-radius: 5px 5px 0 0;
   object-fit: cover;
+  width: 50em;
   height: 200px;
+  margin: 0 auto; /* 追加: 画像を水平方向に中央に寄せる */
 `;
 
 const Content = styled.div`
   padding: 10px;
-  flex: 1;
 `;
 
 const Title = styled.h2`
@@ -184,13 +226,19 @@ const Icon = styled.div`
 const Button = styled.a`
   background-color: #009900;
   color: #fff;
-  padding: 10px 20px;
+  margin-top: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   font-size: 1rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 20px;
   text-decoration: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Book;
