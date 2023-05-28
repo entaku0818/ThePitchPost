@@ -72,7 +72,7 @@ interface CommentListProps {
     bookId: string;
 }
 const CommentSectionContainer = styled.div`
-  width: 50em;
+  width: 100%;
 `;
 
 function CommentList({ bookId }: CommentListProps) {
