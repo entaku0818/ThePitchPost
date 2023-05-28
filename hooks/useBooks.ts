@@ -40,9 +40,10 @@ export function useBook(id): UseBookOutput {
     useEffect(() => {
         void (async () => {
             const book = await getBook(id)
+
             setOutput({ isLoading: false, book })
         })()
-    }, [])
+    }, [id])
 
     return output
 }

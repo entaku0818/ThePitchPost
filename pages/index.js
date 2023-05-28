@@ -47,7 +47,7 @@ export default function Home() {
                                       description={item.description}
                                       sourceSite={item.sourceSite}
                                       imageUrl={item.imageUrl}
-                                      book={item} />
+                                       />
                         ))}
                     </ul>
                 </div>

@@ -13,24 +13,30 @@ import Picker from 'emoji-picker-react';
 
 
 const Book = () => {
-
-    const router = useRouter();
-    if (!router.query.id) {
-        return <div>Loading...</div>;
-    }
-
-    const { id } = router.query;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [comments, setComments] = useState<Comment[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const router = useRouter();
+    const { id } = router.query;
+
     const { isLoading, book } = useBook(id)
-    if (isLoading) {
+
+    useEffect(() => {
+        async function fetchComments() {
+            if (typeof id === "string") {
+                const comments = await getComments(id);
+                setComments(comments);
+            }
+        }
+        if(id) fetchComments();
+    }, [id]);
+
+    if (!id || isLoading) {
         return <div>Loading...</div>;
     }
 
-
     if (!book) {
+        console.log(id);
         return <div>Book not found</div>;
     }
 
@@ -39,7 +45,16 @@ const Book = () => {
     }
     function handleModalClose() {
         setIsModalOpen(false);
-        console.log(isModalOpen)
+    }
+
+    function handleCommentSubmitted() {
+        async function fetchComments() {
+            if (typeof id === "string") {
+                const comments = await getComments(id);
+                setComments(comments);
+            }
+        }
+        if(id) fetchComments();
     }
 
     return (
@@ -51,45 +66,42 @@ const Book = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Header />
-        <Card>
-            <Image src={book?.imageUrl ?? "https://ichef.bbci.co.uk/onesport/cps/976/cpsprodpb/1571B/production/_125753878_football.jpg"} alt={book?.id} />
-            <Content>
-                <Title>{book?.title}</Title>
-                <Button href={book?.url}>続きを読む</Button>
-            </Content>
-            <div>
-                <CommentList bookId={book?.id} />
-                <CommentForm bookId={book?.id} noLogin={noLogin} />
-            </div>
-            <LoginModal isOpen={isModalOpen} onClose={handleModalClose} />
-
-        </Card>
+            <Card>
+                <Image src={book?.imageUrl ?? "https://ichef.bbci.co.uk/onesport/cps/976/cpsprodpb/1571B/production/_125753878_football.jpg"} alt={book?.id} />
+                <Content>
+                    <Title>{book?.title}</Title>
+                    <Button href={book?.url}>続きを読む</Button>
+                </Content>
+                <CommentSectionContainer>
+                    <CommentList comments={comments} />
+                    <CommentForm bookId={book?.id} noLogin={noLogin} onSubmitComment={handleCommentSubmitted} />
+                </CommentSectionContainer>
+                <LoginModal isOpen={isModalOpen} onClose={handleModalClose} />
+            </Card>
         </>
-
     );
 };
-
-
-interface CommentListProps {
-    bookId: string;
-}
 const CommentSectionContainer = styled.div`
   width: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
+
 `;
 
-function CommentList({ bookId }: CommentListProps) {
-    const [comments, setComments] = useState<Comment[]>([]);
+interface CommentListProps {
+    comments: Comment[];
+}
 
-    useEffect(() => {
-        async function fetchComments() {
-            const comments = await getComments(bookId);
-            setComments(comments);
-        }
-        fetchComments();
-    }, [bookId]);
+const CommentListContainer = styled.div`
+  
+`;
+
+function CommentList({ comments }: CommentListProps) {
+
+
 
     return (
-        <CommentSectionContainer className="comment-section">
+        <CommentListContainer className="comment-section">
             <h2>Comments</h2>
             {comments.map((comment) => (
                 <div key={comment.id} className="comment">
@@ -107,16 +119,17 @@ function CommentList({ bookId }: CommentListProps) {
                     <p className="comment-text">{comment.comment}</p>
                 </div>
             ))}
-        </CommentSectionContainer>
+        </CommentListContainer>
     );
 }
 
 interface CommentFormProps {
     bookId: string;
     noLogin: () => void;
+    onSubmitComment: () => void;
 }
 
-function CommentForm({ bookId, noLogin }: CommentFormProps) {
+function CommentForm({ bookId, noLogin, onSubmitComment }: CommentFormProps) {
     const [comment, setComment] = useState('');
     const [chosenEmoji, setChosenEmoji] = useState(null);
 
@@ -135,6 +148,7 @@ function CommentForm({ bookId, noLogin }: CommentFormProps) {
                 const currentUser = await getCurrentUser();
                 await addComment(bookId, currentUser.uid, currentUser.displayName || "", comment);
                 setComment("");
+                onSubmitComment();
             })
             .catch(() => {
                 // ログインしていない場合の処理
