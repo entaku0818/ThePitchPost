@@ -9,6 +9,8 @@ import {LoginModal} from "../components/LoginModal";
 import { useAuth } from '../hooks/useAuth';
 import Head from "next/head";
 import Header from "../components/header";
+import Picker from 'emoji-picker-react';
+
 
 const Book = () => {
 
@@ -116,6 +118,9 @@ interface CommentFormProps {
 
 function CommentForm({ bookId, noLogin }: CommentFormProps) {
     const [comment, setComment] = useState('');
+    const [chosenEmoji, setChosenEmoji] = useState(null);
+
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     const { getCurrentUser } = useAuth();
 
@@ -137,6 +142,10 @@ function CommentForm({ bookId, noLogin }: CommentFormProps) {
             });
 
     }
+    const onEmojiClick = (event, emojiObject) => {
+        setChosenEmoji(emojiObject);
+        setComment(comment + event.emoji);
+    };
 
     return (
         <CommentFormContainer className="comment-form" onSubmit={handleSubmit}>
@@ -149,7 +158,11 @@ function CommentForm({ bookId, noLogin }: CommentFormProps) {
                 placeholder="Type your comment here"
                 className="comment-input"
             ></CommentTextarea>
+            {showEmojiPicker ? <Picker onEmojiClick={onEmojiClick} /> : null}
             <CommentButtonContainer>
+                <button type="button" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                    Toggle Emoji Picker
+                </button>
                 <CommentButton type="submit" className="comment-btn">
                     Pitch Post
                 </CommentButton>
