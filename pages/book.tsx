@@ -95,7 +95,27 @@ interface CommentListProps {
 const CommentListContainer = styled.div`
   
 `;
+const CommentHeader = styled.div`
+  display: flex;
+`;
 
+const CommentMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+  margin-left: 1em;
+`;
+
+const ProfileName = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 1em;
+  font-size: medium;
+`;
+
+const CommentText = styled.div`
+  margin-left: 3em;
+`;
 function CommentList({ comments }: CommentListProps) {
 
 
@@ -104,20 +124,16 @@ function CommentList({ comments }: CommentListProps) {
         <CommentListContainer className="comment-section">
             <h2>Comments</h2>
             {comments.map((comment) => (
-                <div key={comment.id} className="comment">
-                    <div className="comment-header">
-                        <img
-                            src={`https://api.adorable.io/avatars/48/${comment.userId}.png`}
-                            alt="avatar"
-                            className="comment-avatar"
-                        />
-                        <div className="comment-header-right">
-                            <span className="comment-author-name">{comment.displayName}</span>
+                <CommentMain key={comment.id}>
+                    <CommentHeader>
+                        <ProfileImage src="user.svg" alt=""  />
+                        <ProfileName >
+                            {comment.displayName}
                             {/*<small className="comment-date">{comment.createdAt.toDateString()}</small>*/}
-                        </div>
-                    </div>
-                    <p className="comment-text">{comment.comment}</p>
-                </div>
+                        </ProfileName>
+                    </CommentHeader>
+                    <CommentText >{comment.comment}</CommentText>
+                </CommentMain>
             ))}
         </CommentListContainer>
     );
@@ -139,7 +155,6 @@ function CommentForm({ bookId, noLogin, onSubmitComment }: CommentFormProps) {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        console.log(bookId);
 
 
         checkLogin()
@@ -226,9 +241,15 @@ const Card = styled.div`
 
 const Image = styled.img`
   object-fit: cover;
-  width: 50em;
+  width: 100%;
   height: 200px;
   margin: 0 auto; /* 追加: 画像を水平方向に中央に寄せる */
+`;
+
+const ProfileImage = styled.img`
+  object-fit: fill;
+  width: 2em;
+  height: 2em;
 `;
 
 const Content = styled.div`
