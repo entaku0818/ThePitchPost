@@ -24,18 +24,18 @@ export default function Home() {
             <Header />
             <div className="main-image"></div>
             <main className={styles.main}>
-                {/*<div className="pickup">*/}
-                {/*    <div className="pickup-title">PICK UP</div>*/}
-                {/*    {topRank && (*/}
-                {/*        <RankCardView*/}
-                {/*            key={topRank.id}*/}
-                {/*            bookId={topRank.bookId}*/}
-                {/*            title={topRank.title}*/}
-                {/*            description={topRank.description}*/}
-                {/*            imageUrl={topRank.imageUrl}*/}
-                {/*        />*/}
-                {/*    )}*/}
-                {/*</div>*/}
+                <div className="pickup">
+                    <div className="pickup-title">PICK UP</div>
+                    {topRank && (
+                        <RankCardView
+                            key={topRank.id}
+                            bookId={topRank.id}
+                            title={topRank.title}
+                            description={topRank.description}
+                            imageUrl={topRank.imageUrl}
+                        />
+                    )}
+                </div>
                 <div className="topics">
                     <div className="topics-title">TOPICS ALL</div>
                     <ul className="cardList">

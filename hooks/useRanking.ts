@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import {getTopRank, Ranking} from '../firebase/ranking'
+import {Book, getRankBooks} from '../firebase/books'
 
 
 export type UseRankOutput = {
     isLoading: boolean
-    topRank: Ranking | null
+    topRank: Book | null
 }
 
 const BOOK_DEFAULT_OUTPUT: UseRankOutput = {
@@ -18,8 +19,10 @@ export function useTopRank(): UseRankOutput {
 
     useEffect(() => {
         void (async () => {
-            const topRank = await getTopRank()
-            setOutput({ isLoading: false, topRank })
+            const topRankBooks = await getRankBooks()
+            const firstBook = topRankBooks[0];
+            console.log(topRankBooks)
+            setOutput({ isLoading: false, topRank:firstBook })
         })()
     }, [])
 
